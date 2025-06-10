@@ -1,33 +1,30 @@
 class Solution {
-public:
-    string longestPalindrome(string s) {
-        if (s.empty()) {
-            return "";
-        }
+    
 
-        int start = 0;
-        int end = 0;
-
-        for (int i = 0; i < s.length(); i++) {
-            int odd = expandAroundCenter(s, i, i);
-            int even = expandAroundCenter(s, i, i + 1);
-            int max_len = max(odd, even);
-
-            if (max_len > end - start) {
-                start = i - (max_len - 1) / 2;
-                end = i + max_len / 2;
-            }
-        }
-
-        return s.substr(start, end - start + 1);        
-    }
-
-private:
-    int expandAroundCenter(string s, int left, int right) {
-        while (left >= 0 && right < s.length() && s[left] == s[right]) {
+    string GetlongString(string& s, int left, int right){
+        while(left>=0 && right<s.length() && s[left]==s[right]){
             left--;
             right++;
         }
-        return right - left - 1;
-    }    
+
+        return s.substr(left+1, right-left - 1);
+    }
+public:
+    string longestPalindrome(string s) {
+        string longest = "";
+        for(int i =0;i<s.length();i++){
+
+            string oddpal = GetlongString(s,i,i);
+            if(oddpal.length()>longest.length()){
+                longest = oddpal;
+            }
+
+            string evenpal = GetlongString(s,i,i+1);
+            if(evenpal.length()>longest.length()){
+                longest = evenpal;
+            }
+        }
+        return longest;
+        
+    }
 };
